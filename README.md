@@ -1,46 +1,12 @@
-# Getting Started with Create React App
+## 구현 상세
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 지뢰찾기는 [http://minesweeperonline.com/](http://minesweeperonline.com/) 에서 해보실 수 있습니다.
+- 처음에 화면에는 다음의 내용이 표시됩니다.
+- 남은 지뢰 개수 (초기값은 적절한 난이도로 정하시면 됩니다.
+- 닫혀있는 셀 8x8 (CSS 사용을 보려는 것이 아니기 때문에 최대한 간단하게 출력해주세요.)
+- 닫혀있는 셀을 왼쪽 클릭하면 다음과 같이 진행됩니다.
+- 지뢰인 경우: 지뢰가 표시되고 게임 종료 ⇒ 다시 시작하기 확인을 누르면 새로운 게임이 시작됨
+- 지뢰가 아닌 경우: 해당 셀에 인접한 셀 중 지뢰가 있는 만큼의 숫자가 표시됨 ⇒ 숫자가 0인 경우 아무것도 표시하지 않음
+- 닫혀있는 셀을 오른쪽 클릭하면 다음과 같이 진행됩니다.
+- 화면에 표시된 남은 지뢰 개수에서 1이 줄어들고 클릭한 셀에 깃발이 표시됩니다.
+- 남은 지뢰 개수가 0인 경우 아무일도 일어나지 않습니다.
