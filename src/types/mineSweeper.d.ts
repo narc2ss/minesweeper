@@ -1,2 +1,5 @@
-type MineCount = number;
-export type CellStatus = MineCount | "M";
+type CountOfNearByMine = number;
+export type Cell = {
+  status: CountOfNearByMine | "M" | "F";
+  isActive: boolean;
+};

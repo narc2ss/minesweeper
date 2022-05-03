@@ -1,19 +1,48 @@
 import { MINES, MINESWEEEER_COLUMN, MINESWEEPER_ROW } from "../constants";
-import { CellStatus } from "../types/mineSweeper";
+import { Cell } from "../types/mineSweeper";
+import { getRandomInt } from "../utils";
 
 export const initField = (
   row = MINESWEEPER_ROW,
   column = MINESWEEEER_COLUMN,
   mines = MINES
 ) => {
-  const field: CellStatus[][] = [];
+  const field: Cell[][] = [];
 
   for (let i = 0; i < row; i++) {
-    const row: CellStatus[] = [];
+    const row: Cell[] = [];
     for (let j = 0; j < column; j++) {
-      row.push(0);
+      row.push({ status: 0, isActive: false });
     }
     field.push(row);
+  }
+
+  let mineCont = 0;
+  while (mineCont < mines) {
+    const randomRow = getRandomInt(0, MINESWEEPER_ROW);
+    const randomColumn = getRandomInt(0, MINESWEEEER_COLUMN);
+    const randomCell = field[randomRow][randomColumn];
+    console.log(mineCont);
+
+    if (randomCell.status === "M") continue;
+
+    randomCell.status = "M";
+    for (let i = randomRow - 1; i <= randomRow + 1; i++) {
+      if (i < 0) continue;
+      for (let j = randomColumn - 1; j <= randomColumn + 1; j++) {
+        if (j < 0) continue;
+        const cell = field[i]?.[j];
+        if (!cell) continue;
+        if (cell.status === "M") {
+          continue;
+        }
+        if (typeof cell.status === "number") {
+          cell.status += 1;
+        }
+      }
+    }
+
+    mineCont++;
   }
 
   return field;
@@ -22,7 +51,7 @@ export const initField = (
 type MineSweeperAction = any;
 
 type MineSweeperState = {
-  field: CellStatus[][];
+  field: Cell[][];
 };
 
 const initialState: MineSweeperState = {

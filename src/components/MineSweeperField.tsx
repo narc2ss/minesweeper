@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import { FC } from "react";
-import { CellStatus } from "../types/mineSweeper";
+import { Cell } from "../types/mineSweeper";
 
 interface Props {
-  field: CellStatus[][];
+  field: Cell[][];
 }
 
 const MineSweeperField: FC<Props> = ({ field }) => {
@@ -12,7 +12,7 @@ const MineSweeperField: FC<Props> = ({ field }) => {
       {field.map((row, rowIndex) => (
         <div key={rowIndex}>
           {row.map((cell, cellIndex) => (
-            <CellBlock key={cellIndex}>{cell}</CellBlock>
+            <CellBlock key={cellIndex}>{cell.status}</CellBlock>
           ))}
         </div>
       ))}
