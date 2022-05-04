@@ -73,8 +73,14 @@ function mineSweeper(
       return { ...state, field: newField, status: "START" };
     }
     case SUSPECT_CELL: {
-      console.log("suspect cell");
-      return { ...state, status: "START" };
+      const { id } = action.payload;
+
+      const newField = state.field.map((row) =>
+        row.map((cell) =>
+          cell.id === id ? { ...cell, isSuspect: !cell.isSuspect } : cell
+        )
+      );
+      return { ...state, field: newField, status: "START" };
     }
     default:
       return { ...state };

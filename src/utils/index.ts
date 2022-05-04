@@ -25,7 +25,8 @@ export const initField = (
         },
         status: 0,
         isActive: false,
-      };
+        isSuspect: false,
+      } as Cell;
       row.push(cell);
     }
     field.push(row);
