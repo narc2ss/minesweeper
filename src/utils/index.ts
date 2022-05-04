@@ -36,7 +36,6 @@ export const initField = (
     const randomRow = getRandomInt(0, MINESWEEPER_ROW);
     const randomColumn = getRandomInt(0, MINESWEEEER_COLUMN);
     const randomCell = field[randomRow][randomColumn];
-    console.log(mineCont);
 
     if (randomCell.status === "M") continue;
 

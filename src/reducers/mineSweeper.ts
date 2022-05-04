@@ -19,8 +19,9 @@ export const openCellRecursively = () => ({
   type: OPEN_CELL_RECURSIVELY,
 });
 
-export const openCell = () => ({
+export const openCell = (cell: Cell) => ({
   type: OPEN_CELL,
+  payload: cell,
 });
 
 export const suspectCell = () => ({
@@ -68,19 +69,13 @@ function mineSweeper(
       };
     }
     case OPEN_CELL: {
-      console.log("openCell");
-      // const { row: r, column: c } = action.payload;
-      // const newField = state.field.map((row, ri) =>
-      //   ri === r
-      //     ? row.map((cell, ci) =>
-      //         ci === c ? { ...cell, isActive: true } : cell
-      //       )
-      //     : row
-      // );
-      // return {
-      //   field: newField,
-      // };
-      return { ...state, status: "START" };
+      const { id } = action.payload;
+
+      const newField = state.field.map((row) =>
+        row.map((cell) => (cell.id === id ? { ...cell, isActive: true } : cell))
+      );
+
+      return { ...state, field: newField, status: "START" };
     }
     case OPEN_CELL_RECURSIVELY: {
       console.log("open cell recursively");
