@@ -42,9 +42,7 @@ const MineSweeperField: FC<Props> = ({ field, cellHandler, preventAll }) => {
   );
 };
 
-const MineSweeperFieldBlock = styled.section`
-  border: 1px solid #000;
-`;
+const MineSweeperFieldBlock = styled.section``;
 
 const RowBlock = styled.div`
   display: grid;
