@@ -6,6 +6,20 @@ const styles = css`
     padding: 0;
     box-sizing: border-box;
   }
+
+  button {
+    padding: 0.5rem 1rem;
+    background-color: #999;
+    border: none;
+    color: white;
+    border-radius: 0.5rem;
+  }
+  button.transparent {
+    background-color: inherit;
+    border: 1px solid #999;
+    color: #000;
+    border-radius: 0.5rem;
+  }
 `;
 
 const GlobalStyle = () => {
