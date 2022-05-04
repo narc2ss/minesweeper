@@ -5,6 +5,8 @@ import { initField } from "../utils";
 const GAME_INIT = "GAME_INIT" as const;
 const GAME_START = "GAME_START" as const;
 const GAME_OVER = "GAME_OVER" as const;
+const GAME_CLEAR = "GAME_CLEAR" as const;
+const ADD_RECORD = "ADD_RECORD" as const;
 const OPEN_CELL = "OPEN_CELL" as const;
 const SUSPECT_CELL = "SUSPECT_CELL" as const;
 
@@ -20,6 +22,10 @@ export const gameOver = () => ({
   type: GAME_OVER,
 });
 
+export const gameClear = () => ({
+  type: GAME_CLEAR,
+});
+
 export const openCell = (cell: Cell) => ({
   type: OPEN_CELL,
   payload: cell,
@@ -30,12 +36,19 @@ export const suspectCell = (cell: Cell) => ({
   payload: cell,
 });
 
+export const addRecord = (time: number) => ({
+  type: ADD_RECORD,
+  payload: time,
+});
+
 type MineSweeperAction =
   | ReturnType<typeof gameInit>
   | ReturnType<typeof gameStart>
+  | ReturnType<typeof gameClear>
   | ReturnType<typeof openCell>
   | ReturnType<typeof suspectCell>
-  | ReturnType<typeof gameOver>;
+  | ReturnType<typeof gameOver>
+  | ReturnType<typeof addRecord>;
 
 type MineSweeperState = {
   field: Cell[][];
@@ -43,6 +56,8 @@ type MineSweeperState = {
   mines: number;
   startTime: number;
   endTime: number;
+  countOfOpendCell: number;
+  records: number[];
 };
 
 const initialState: MineSweeperState = {
@@ -51,6 +66,8 @@ const initialState: MineSweeperState = {
   mines: MINES,
   startTime: 0,
   endTime: 0,
+  countOfOpendCell: 0,
+  records: [],
 };
 
 function mineSweeper(
@@ -59,7 +76,11 @@ function mineSweeper(
 ): MineSweeperState {
   switch (action.type) {
     case GAME_INIT: {
-      return initialState;
+      return {
+        ...initialState,
+        field: initField(),
+        records: [...state.records],
+      };
     }
     case GAME_START: {
       return {
@@ -79,14 +100,32 @@ function mineSweeper(
         ),
       };
     }
+    case GAME_CLEAR: {
+      const newField = state.field.map((row) =>
+        row.map((cell) =>
+          cell.status === "M" ? { ...cell, isSuspect: true } : cell
+        )
+      );
+      return {
+        ...state,
+        status: "CLEAR",
+        field: newField,
+      };
+    }
     case OPEN_CELL: {
-      const { id } = action.payload;
+      const { id, isActive } = action.payload;
+
+      if (isActive) return { ...state };
 
       const newField = state.field.map((row) =>
         row.map((cell) => (cell.id === id ? { ...cell, isActive: true } : cell))
       );
 
-      return { ...state, field: newField };
+      return {
+        ...state,
+        field: newField,
+        countOfOpendCell: state.countOfOpendCell + 1,
+      };
     }
     case SUSPECT_CELL: {
       const { id, isSuspect } = action.payload;
@@ -111,6 +150,12 @@ function mineSweeper(
         field: newField,
         mines: newMines,
       };
+    }
+    case ADD_RECORD: {
+      const newRecords = [...state.records, action.payload].sort(
+        (a, b) => a - b
+      );
+      return { ...state, records: newRecords };
     }
     default:
       return { ...state };

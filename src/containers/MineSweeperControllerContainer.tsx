@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MineSweeperController from "../components/MineSweeperController";
 import useInterval from "../hooks/useInterval";
 import { RootState } from "../reducers";
-import { gameInit } from "../reducers/mineSweeper";
+import { addRecord, gameInit } from "../reducers/mineSweeper";
 
 const MineSweeperControllerContainer: FC = () => {
   const dispatch = useDispatch();
@@ -24,14 +24,18 @@ const MineSweeperControllerContainer: FC = () => {
   }, [startTime]);
 
   useInterval(() => {
-    if (status !== "START") return;
     const timeToSecond = (Date.now() - startTime) / 1000;
+    if (status !== "START") return;
     setTime(timeToSecond);
   }, 100);
 
   useEffect(() => {
     if (status === "INIT") setTime(0);
   }, [status]);
+
+  useEffect(() => {
+    if (status === "CLEAR") dispatch(addRecord(time));
+  }, [status, time, dispatch]);
   return (
     <MineSweeperController
       mines={mines}

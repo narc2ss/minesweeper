@@ -5,7 +5,7 @@ interface CellPosition {
   column: number;
 }
 
-export type Status = "INIT" | "START" | "DONE";
+export type Status = "INIT" | "START" | "CLEAR" | "DONE";
 export interface Cell {
   id: string;
   position: CellPosition;

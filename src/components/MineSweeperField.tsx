@@ -23,7 +23,7 @@ const MineSweeperField: FC<Props> = ({ field, cellHandler, preventAll }) => {
                   onMouseDown={(e) => cellHandler(e, cell)}
                   onContextMenu={preventAll}
                 >
-                  E
+                  F
                 </CellBlock>
               );
             } else {
