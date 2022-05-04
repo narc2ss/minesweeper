@@ -63,6 +63,7 @@ const MineSweeperFieldContainer: FC = () => {
     }
 
     if (e.buttons === 2) {
+      if (cell.isActive) return;
       dispatch(suspectCell(cell));
     }
   };
