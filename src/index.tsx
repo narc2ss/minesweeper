@@ -5,6 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { legacy_createStore } from "redux";
 import rootReducer from "./reducers";
+import GlobalStyle from "./styles/GlobalStyle";
+import GlobalWidth from "./styles/GlobalWidth";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,7 +17,10 @@ const store = legacy_createStore(rootReducer);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <GlobalStyle />
+      <GlobalWidth>
+        <App />
+      </GlobalWidth>
     </Provider>
   </React.StrictMode>
 );
