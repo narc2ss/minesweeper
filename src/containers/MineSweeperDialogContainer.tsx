@@ -1,19 +1,34 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MineSweeperDialog from "../components/MineSweeperDialog";
 import { RootState } from "../reducers";
-import { gameStart } from "../reducers/mineSweeper";
+import { gameInit } from "../reducers/mineSweeper";
 
 const MineSweeperDialogContainer: FC = () => {
-  const { status } = useSelector((state: RootState) => state.mineSweeper);
   const dispatch = useDispatch();
+  const { status } = useSelector((state: RootState) => state.mineSweeper);
+  const [dialogActive, setDialogActive] = useState(false);
+
   const gameStartHandler = () => {
-    dispatch(gameStart());
+    dispatch(gameInit());
   };
+
+  const nonActiveDialog = () => {
+    setDialogActive(false);
+  };
+
+  useEffect(() => {
+    if (status === "DONE") setDialogActive(true);
+    else setDialogActive(false);
+  }, [status]);
+
   return (
     <>
-      {status === "DONE" && (
-        <MineSweeperDialog gameStartHandler={gameStartHandler} />
+      {dialogActive && (
+        <MineSweeperDialog
+          gameStartHandler={gameStartHandler}
+          nonActiveDialog={nonActiveDialog}
+        />
       )}
     </>
   );

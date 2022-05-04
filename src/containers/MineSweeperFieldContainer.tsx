@@ -3,15 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import MineSweeperField from "../components/MineSweeperField";
 import { MINESWEEEER_COLUMN, MINESWEEPER_ROW } from "../constants";
 import { RootState } from "../reducers";
-import { gameOver, openCell, suspectCell } from "../reducers/mineSweeper";
+import {
+  gameOver,
+  gameStart,
+  openCell,
+  suspectCell,
+} from "../reducers/mineSweeper";
 import { Cell } from "../types/mineSweeper";
 
 const MineSweeperFieldContainer: FC = () => {
-  const { field } = useSelector((state: RootState) => state.mineSweeper);
+  const { field, status } = useSelector(
+    (state: RootState) => state.mineSweeper
+  );
   const dispatch = useDispatch();
 
   const nonCellHandler = (cell: Cell) => {
-    console.log(cell.status);
     if (cell.status !== 0 || cell.isActive) return;
 
     dispatch(openCell(cell));
@@ -41,6 +47,10 @@ const MineSweeperFieldContainer: FC = () => {
     cell: Cell
   ) => {
     e.preventDefault();
+    if (status === "DONE") return;
+
+    if (status !== "START") dispatch(gameStart());
+
     if (e.buttons === 1) {
       if (cell.isSuspect) return;
       if (cell.status === "M") {

@@ -2,10 +2,15 @@ import { MINES } from "../constants";
 import { Cell, Status } from "../types/mineSweeper";
 import { initField } from "../utils";
 
+const GAME_INIT = "GAME_INIT" as const;
 const GAME_START = "GAME_START" as const;
 const GAME_OVER = "GAME_OVER" as const;
 const OPEN_CELL = "OPEN_CELL" as const;
 const SUSPECT_CELL = "SUSPECT_CELL" as const;
+
+export const gameInit = () => ({
+  type: GAME_INIT,
+});
 
 export const gameStart = () => ({
   type: GAME_START,
@@ -26,6 +31,7 @@ export const suspectCell = (cell: Cell) => ({
 });
 
 type MineSweeperAction =
+  | ReturnType<typeof gameInit>
   | ReturnType<typeof gameStart>
   | ReturnType<typeof openCell>
   | ReturnType<typeof suspectCell>
@@ -35,12 +41,16 @@ type MineSweeperState = {
   field: Cell[][];
   status: Status;
   mines: number;
+  startTime: number;
+  endTime: number;
 };
 
 const initialState: MineSweeperState = {
   field: initField(),
   status: "INIT",
   mines: MINES,
+  startTime: 0,
+  endTime: 0,
 };
 
 function mineSweeper(
@@ -48,22 +58,25 @@ function mineSweeper(
   action: MineSweeperAction
 ): MineSweeperState {
   switch (action.type) {
+    case GAME_INIT: {
+      return initialState;
+    }
     case GAME_START: {
       return {
         ...state,
-        field: initField(),
+        startTime: Date.now(),
         status: "START",
       };
     }
     case GAME_OVER: {
       return {
         ...state,
+        status: "DONE",
         field: state.field.map((row) =>
           row.map((cell) =>
             cell.status === "M" ? { ...cell, isActive: true } : cell
           )
         ),
-        status: "DONE",
       };
     }
     case OPEN_CELL: {
@@ -73,7 +86,7 @@ function mineSweeper(
         row.map((cell) => (cell.id === id ? { ...cell, isActive: true } : cell))
       );
 
-      return { ...state, field: newField, status: "START" };
+      return { ...state, field: newField };
     }
     case SUSPECT_CELL: {
       const { id, isSuspect } = action.payload;
@@ -97,7 +110,6 @@ function mineSweeper(
         ...state,
         field: newField,
         mines: newMines,
-        status: "START",
       };
     }
     default:
