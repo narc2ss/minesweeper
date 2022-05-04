@@ -56,7 +56,7 @@ const MineSweeperField: FC<Props> = ({ field }) => {
     }
 
     if (e.buttons === 2) {
-      dispatch(suspectCell());
+      dispatch(suspectCell(cell));
     }
   };
 

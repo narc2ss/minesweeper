@@ -3,7 +3,6 @@ import { initField } from "../utils";
 
 const GAME_START = "GAME_START" as const;
 const GAME_OVER = "GAME_OVER" as const;
-const OPEN_CELL_RECURSIVELY = "OPEN_CELL_RECURSIVELY" as const;
 const OPEN_CELL = "OPEN_CELL" as const;
 const SUSPECT_CELL = "SUSPECT_CELL" as const;
 
@@ -15,25 +14,21 @@ export const gameOver = () => ({
   type: GAME_OVER,
 });
 
-export const openCellRecursively = () => ({
-  type: OPEN_CELL_RECURSIVELY,
-});
-
 export const openCell = (cell: Cell) => ({
   type: OPEN_CELL,
   payload: cell,
 });
 
-export const suspectCell = () => ({
+export const suspectCell = (cell: Cell) => ({
   type: SUSPECT_CELL,
+  payload: cell,
 });
 
 type MineSweeperAction =
   | ReturnType<typeof gameStart>
   | ReturnType<typeof openCell>
   | ReturnType<typeof suspectCell>
-  | ReturnType<typeof gameOver>
-  | ReturnType<typeof openCellRecursively>;
+  | ReturnType<typeof gameOver>;
 
 type MineSweeperState = {
   field: Cell[][];
@@ -76,10 +71,6 @@ function mineSweeper(
       );
 
       return { ...state, field: newField, status: "START" };
-    }
-    case OPEN_CELL_RECURSIVELY: {
-      console.log("open cell recursively");
-      return { ...state, status: "START" };
     }
     case SUSPECT_CELL: {
       console.log("suspect cell");
