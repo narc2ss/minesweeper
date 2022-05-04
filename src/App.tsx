@@ -1,13 +1,15 @@
-import React from "react";
-
-import MineSweeperControllerContainer from "./containers/MineSweeperControllerContainer";
-import MineSweeperFieldContainer from "./containers/MineSweeperFieldContainer";
+import {
+  MineSweeperControllerContainer,
+  MineSweeperDialogContainer,
+  MineSweeperFieldContainer,
+} from "./containers";
 
 function App() {
   return (
     <>
       <MineSweeperControllerContainer />
       <MineSweeperFieldContainer />
+      <MineSweeperDialogContainer />
     </>
   );
 }

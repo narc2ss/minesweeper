@@ -1,4 +1,4 @@
-import { Cell } from "../types/mineSweeper";
+import { Cell, Status } from "../types/mineSweeper";
 import { initField } from "../utils";
 
 const GAME_START = "GAME_START" as const;
@@ -28,6 +28,7 @@ export const suspectCell = () => ({
 });
 
 type MineSweeperAction =
+  | ReturnType<typeof gameStart>
   | ReturnType<typeof openCell>
   | ReturnType<typeof suspectCell>
   | ReturnType<typeof gameOver>
@@ -35,20 +36,36 @@ type MineSweeperAction =
 
 type MineSweeperState = {
   field: Cell[][];
+  status: Status;
 };
 
 const initialState: MineSweeperState = {
   field: initField(),
+  status: "INIT",
 };
 
 function mineSweeper(
   state: MineSweeperState = initialState,
   action: MineSweeperAction
-) {
+): MineSweeperState {
   switch (action.type) {
+    case GAME_START: {
+      return {
+        ...state,
+        field: initField(),
+        status: "START",
+      };
+    }
     case GAME_OVER: {
-      console.log("game over");
-      return state;
+      return {
+        ...state,
+        field: state.field.map((row) =>
+          row.map((cell) =>
+            cell.status === "M" ? { ...cell, isActive: true } : cell
+          )
+        ),
+        status: "DONE",
+      };
     }
     case OPEN_CELL: {
       console.log("openCell");
@@ -63,20 +80,18 @@ function mineSweeper(
       // return {
       //   field: newField,
       // };
-      return state;
+      return { ...state, status: "START" };
     }
     case OPEN_CELL_RECURSIVELY: {
       console.log("open cell recursively");
-      return state;
+      return { ...state, status: "START" };
     }
-
     case SUSPECT_CELL: {
       console.log("suspect cell");
-      return state;
+      return { ...state, status: "START" };
     }
-
     default:
-      return state;
+      return { ...state };
   }
 }
 

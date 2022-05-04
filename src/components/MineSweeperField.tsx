@@ -29,9 +29,9 @@ const MineSweeperField: FC<Props> = ({ field }) => {
         dispatch(openCell());
       }
     }
+
     if (e.buttons === 2) {
       dispatch(suspectCell());
-      // dispatch(suspectCell(position));
     }
   };
 
@@ -51,7 +51,9 @@ const MineSweeperField: FC<Props> = ({ field }) => {
                 key={cell.id}
                 onMouseDown={(e) => cellHandler(e, cell)}
                 onContextMenu={preventAll}
-              />
+              >
+                {/* {cell.status} */}
+              </CellBlock>
             )
           )}
         </RowBlock>

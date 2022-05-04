@@ -4,7 +4,7 @@ import MineSweeperField from "../components/MineSweeperField";
 import { RootState } from "../reducers";
 
 const MineSweeperFieldContainer: FC = () => {
-  const field = useSelector((state: RootState) => state.mineSweeper.field);
+  const { field } = useSelector((state: RootState) => state.mineSweeper);
   return <MineSweeperField field={field} />;
 };
 
