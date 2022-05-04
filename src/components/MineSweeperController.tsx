@@ -1,22 +1,30 @@
+import styled from "@emotion/styled";
 import { FC } from "react";
 
-const MineSweeperController: FC = () => {
+interface Props {
+  mines: number;
+}
+
+const MineSweeperController: FC<Props> = ({ mines }) => {
   return (
-    <>
-      <h1>MineSweeper</h1>
-      <section>
-        <div>
-          <span>남은지뢰: 10</span>
-        </div>
-        <div>
-          <button>게임중</button>
-        </div>
-        <div>
-          <span>시간</span>
-        </div>
-      </section>
-    </>
+    <MineSweeperControllerBlock>
+      <div>
+        <span>남은지뢰: {mines}</span>
+      </div>
+      <div>
+        <button>게임중</button>
+      </div>
+      <div>
+        <span>시간</span>
+      </div>
+    </MineSweeperControllerBlock>
   );
 };
+
+const MineSweeperControllerBlock = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+`;
 
 export default MineSweeperController;

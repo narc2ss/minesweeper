@@ -7,16 +7,12 @@ export const getRandomInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-export const initField = (
-  row = MINESWEEPER_ROW,
-  column = MINESWEEEER_COLUMN,
-  mines = MINES
-) => {
+export const initField = () => {
   const field: Cell[][] = [];
 
-  for (let i = 0; i < row; i++) {
+  for (let i = 0; i < MINESWEEPER_ROW; i++) {
     const row: Cell[] = [];
-    for (let j = 0; j < column; j++) {
+    for (let j = 0; j < MINESWEEEER_COLUMN; j++) {
       const cell = {
         id: `${i}/${j}`,
         position: {
@@ -33,7 +29,7 @@ export const initField = (
   }
 
   let mineCont = 0;
-  while (mineCont < mines) {
+  while (mineCont < MINES) {
     const randomRow = getRandomInt(0, MINESWEEPER_ROW);
     const randomColumn = getRandomInt(0, MINESWEEEER_COLUMN);
     const randomCell = field[randomRow][randomColumn];

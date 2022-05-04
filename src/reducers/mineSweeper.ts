@@ -1,3 +1,4 @@
+import { MINES } from "../constants";
 import { Cell, Status } from "../types/mineSweeper";
 import { initField } from "../utils";
 
@@ -33,11 +34,13 @@ type MineSweeperAction =
 type MineSweeperState = {
   field: Cell[][];
   status: Status;
+  mines: number;
 };
 
 const initialState: MineSweeperState = {
   field: initField(),
   status: "INIT",
+  mines: MINES,
 };
 
 function mineSweeper(
@@ -73,14 +76,29 @@ function mineSweeper(
       return { ...state, field: newField, status: "START" };
     }
     case SUSPECT_CELL: {
-      const { id } = action.payload;
+      const { id, isSuspect } = action.payload;
+
+      if (state.mines === 0 && !isSuspect) return { ...state };
+
+      let newMines = state.mines;
+
+      if (!isSuspect) {
+        newMines = state.mines - 1;
+      } else {
+        newMines = state.mines + 1;
+      }
 
       const newField = state.field.map((row) =>
         row.map((cell) =>
           cell.id === id ? { ...cell, isSuspect: !cell.isSuspect } : cell
         )
       );
-      return { ...state, field: newField, status: "START" };
+      return {
+        ...state,
+        field: newField,
+        mines: newMines,
+        status: "START",
+      };
     }
     default:
       return { ...state };

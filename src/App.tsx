@@ -7,6 +7,7 @@ import {
 function App() {
   return (
     <>
+      <h1>MineSweeper</h1>
       <MineSweeperControllerContainer />
       <MineSweeperFieldContainer />
       <MineSweeperDialogContainer />
