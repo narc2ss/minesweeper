@@ -1,20 +1,11 @@
 import styled from "@emotion/styled";
-import { FC, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { MINES, MINESWEEEER_COLUMN, MINESWEEPER_ROW } from "../constants";
-import { RootState } from "../reducers";
-import { gameClear } from "../reducers/mineSweeper";
+import { FC } from "react";
 
-const MineSweeperRecord: FC = () => {
-  const dispatch = useDispatch();
-  const { countOfOpendCell, records } = useSelector(
-    (state: RootState) => state.mineSweeper
-  );
-  useEffect(() => {
-    if (countOfOpendCell === MINESWEEPER_ROW * MINESWEEEER_COLUMN - MINES) {
-      dispatch(gameClear());
-    }
-  }, [countOfOpendCell, dispatch]);
+interface Props {
+  records: number[];
+}
+
+const MineSweeperRecord: FC<Props> = ({ records }) => {
   return (
     <MineSweeperRecordBlock>
       <h2>Records</h2>

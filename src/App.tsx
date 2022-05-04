@@ -1,8 +1,8 @@
-import MineSweeperRecord from "./components/MineSweeperRecord";
 import {
   MineSweeperControllerContainer,
   MineSweeperDialogContainer,
   MineSweeperFieldContainer,
+  MineSweeperRecordContainer,
 } from "./containers";
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <MineSweeperControllerContainer />
       <MineSweeperFieldContainer />
       <MineSweeperDialogContainer />
-      <MineSweeperRecord />
+      <MineSweeperRecordContainer />
     </>
   );
 }
