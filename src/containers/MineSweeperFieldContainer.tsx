@@ -35,7 +35,7 @@ const MineSweeperFieldContainer: FC = () => {
 
         newCell = field[i][j];
 
-        if (newCell.status >= 0 && !newCell.isSuspect) {
+        if (newCell.status >= 0 && !newCell.isSuspect && !newCell.isActive) {
           dispatch(openCell(newCell));
         }
       }
