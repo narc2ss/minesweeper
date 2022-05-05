@@ -130,12 +130,13 @@ function mineSweeper(
     }
     case GAME_CLEAR: {
       const newBoardData = state.boardData.map((row) =>
-        row.map((cell) => (cell.isMine ? { ...cell, isOpen: true } : cell))
+        row.map((cell) => (cell.isMine ? { ...cell, isSuspect: true } : cell))
       );
       return {
         ...state,
         status: "CLEAR",
         boardData: newBoardData,
+        currentMines: 0,
       };
     }
     case ADD_RECORD: {

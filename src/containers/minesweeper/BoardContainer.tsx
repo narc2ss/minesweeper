@@ -82,7 +82,8 @@ const BoardContainer: FC = () => {
     }
 
     const opendCells = getOpendCells(newBoardData);
-    if (opendCells.length === ROW * COLUMN - MINES) dispatch(gameClear());
+    if (opendCells.length === ROW * COLUMN - MINES)
+      return dispatch(gameClear());
 
     dispatch(updateBoardData(newBoardData));
   };
@@ -111,7 +112,7 @@ const BoardContainer: FC = () => {
     );
 
     const suspectedCells = getSuspectedEquelsMineCells(newBoardData);
-    if (MINES === suspectedCells.length) dispatch(gameClear());
+    if (MINES === suspectedCells.length) return dispatch(gameClear());
 
     dispatch(
       updateSuspectedCell({
