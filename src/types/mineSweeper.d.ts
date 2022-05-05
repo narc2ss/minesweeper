@@ -23,3 +23,9 @@ export interface ICell {
   isEmpty: boolean;
   neighboringMines: number;
 }
+
+export interface IBoardPayload {
+  row: number;
+  column: number;
+  mines: number;
+}

@@ -1,5 +1,6 @@
 import { MINES } from "../constants";
-import { Cell, ICell, Status } from "../types/mineSweeper";
+import { Cell, IBoardPayload, ICell, Status } from "../types/mineSweeper";
+import { getBoardData } from "../utils";
 
 const GAME_INIT = "GAME_INIT" as const;
 const GAME_START = "GAME_START" as const;
@@ -12,9 +13,9 @@ const SUSPECT_CELL = "SUSPECT_CELL" as const;
 const UPDATE_BOARD_DATA = "UPDATE_BOARD_DATA" as const;
 const UPDATE_SUSPECTED_CELL = "UPDATE_SUSPECTED_CELL" as const;
 
-export const gameInit = (boardData: ICell[][]) => ({
+export const gameInit = (payload: IBoardPayload) => ({
   type: GAME_INIT,
-  payload: boardData,
+  payload,
 });
 
 export const gameStart = () => ({
@@ -71,7 +72,9 @@ type MineSweeperAction =
 type MineSweeperState = {
   boardData?: ICell[][];
   status: Status;
-  mines: number;
+  MINES?: number;
+  ROW?: number;
+  COLUMN?: number;
   startTime: number;
   endTime: number;
   countOfOpendCell: number;
@@ -81,7 +84,6 @@ type MineSweeperState = {
 const initialState: MineSweeperState = {
   boardData: undefined,
   status: "INIT",
-  mines: MINES,
   startTime: 0,
   endTime: 0,
   countOfOpendCell: 0,
@@ -103,13 +105,17 @@ function mineSweeper(
       return {
         ...state,
         boardData: action.payload.boardData,
-        mines: action.payload.mines,
+        MINES: action.payload.mines,
       };
     }
     case GAME_INIT: {
+      const { row, column, mines } = action.payload;
       return {
         ...initialState,
-        boardData: action.payload,
+        boardData: getBoardData(action.payload),
+        ROW: row,
+        COLUMN: column,
+        MINES: mines,
         records: [...state.records],
       };
     }

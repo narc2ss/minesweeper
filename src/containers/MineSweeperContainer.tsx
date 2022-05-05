@@ -16,7 +16,7 @@ const MineSweeperContainer: FC = () => {
   const [mines] = useState<number>(MINES);
 
   useEffect(() => {
-    dispatch(gameInit(getBoardData(row, column, mines)));
+    dispatch(gameInit({ row, column, mines }));
   }, [row, column, mines, dispatch]);
 
   useEffect(() => {

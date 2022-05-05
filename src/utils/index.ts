@@ -1,4 +1,4 @@
-import { ICell } from "../types/mineSweeper";
+import { IBoardPayload, ICell } from "../types/mineSweeper";
 
 export const getRandomInt = (min: number, max: number) => {
   min = Math.ceil(min);
@@ -6,7 +6,7 @@ export const getRandomInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-export const getBoardData = (row: number, column: number, mines: number) => {
+export const getBoardData = ({ row, column, mines }: IBoardPayload) => {
   const field: ICell[][] = [];
 
   for (let i = 0; i < row; i++) {

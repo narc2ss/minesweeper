@@ -8,9 +8,40 @@ import Cell from "./Cell";
 
 const Board: FC = () => {
   const dispatch = useDispatch();
-  const { boardData, mines } = useSelector(
+  const { boardData, MINES, ROW, COLUMN } = useSelector(
     (state: RootState) => state.mineSweeper
   );
+
+  const getNeighbors = (cell: ICell, boardData: ICell[][]): ICell[] => {
+    if (!ROW || !COLUMN || !MINES) return [] as ICell[];
+    const neighbors = [];
+
+    const { row, column } = cell;
+    for (let i = row - 1; i <= row + 1; i++) {
+      for (let j = column - 1; j <= column + 1; j++) {
+        if (i < 0 || i >= ROW || j < 0 || j >= COLUMN) continue;
+
+        if (i === row && j === column) {
+          continue;
+        }
+
+        neighbors.push(boardData[i][j]);
+      }
+    }
+
+    return neighbors;
+  };
+
+  const openEmptyCell = (cell: ICell, boardData: ICell[][]) => {
+    const neighbors = getNeighbors(cell, boardData);
+    neighbors.forEach((c) => {
+      if (!c.isSuspect && !c.isOpen && (c.isEmpty || c.neighboringMines)) {
+        boardData[c.row][c.column].isOpen = true;
+        if (c.isEmpty) openEmptyCell(c, boardData);
+      }
+    });
+    return boardData;
+  };
 
   const onLeftClick = (cell: ICell) => {
     if (cell.isOpen || cell.isSuspect) return;
@@ -23,6 +54,10 @@ const Board: FC = () => {
     const newCell = newBoardData[cell.row][cell.column];
     newCell.isOpen = true;
 
+    if (newCell.isEmpty) {
+      newBoardData = openEmptyCell(cell, newBoardData);
+    }
+
     dispatch(updateBoardData(newBoardData));
   };
 
@@ -31,7 +66,8 @@ const Board: FC = () => {
 
     if (cell.isOpen) return;
 
-    let newMines = mines;
+    if (!MINES) return;
+    let newMines = MINES;
 
     const newCell = { ...cell };
     if (cell.isSuspect) {
