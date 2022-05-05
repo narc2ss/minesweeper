@@ -1,10 +1,12 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import Board from "../components/Board";
 import { MINES, MINESWEEEER_COLUMN, MINESWEEPER_ROW } from "../constants";
 import { gameInit } from "../reducers/mineSweeper";
-import ControllerContainer from "./ControllerContainer";
-import RecordsContainer from "./RecordsContainer";
+import {
+  ControllerContainer,
+  RecordsContainer,
+  BoardContainer,
+} from "./minesweeper";
 
 const MineSweeperContainer: FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +27,7 @@ const MineSweeperContainer: FC = () => {
     <div>
       <h1>Mine Sweeper</h1>
       <ControllerContainer gameInitHandler={gameInitHandler} />
-      <Board />
+      <BoardContainer />
       <RecordsContainer />
     </div>
   );

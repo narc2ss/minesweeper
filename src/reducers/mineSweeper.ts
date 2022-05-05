@@ -1,5 +1,4 @@
-import { MINES } from "../constants";
-import { Cell, IBoardPayload, ICell, Status } from "../types/mineSweeper";
+import { IBoardPayload, ICell, Status } from "../types/mineSweeper";
 import { getBoardData } from "../utils";
 
 const GAME_INIT = "GAME_INIT" as const;
@@ -7,9 +6,6 @@ const GAME_START = "GAME_START" as const;
 const GAME_OVER = "GAME_OVER" as const;
 const GAME_CLEAR = "GAME_CLEAR" as const;
 const ADD_RECORD = "ADD_RECORD" as const;
-const OPEN_CELL = "OPEN_CELL" as const;
-const SUSPECT_CELL = "SUSPECT_CELL" as const;
-
 const UPDATE_BOARD_DATA = "UPDATE_BOARD_DATA" as const;
 const UPDATE_SUSPECTED_CELL = "UPDATE_SUSPECTED_CELL" as const;
 
@@ -28,16 +24,6 @@ export const gameOver = () => ({
 
 export const gameClear = () => ({
   type: GAME_CLEAR,
-});
-
-export const openCell = (cell: Cell) => ({
-  type: OPEN_CELL,
-  payload: cell,
-});
-
-export const suspectCell = (cell: Cell) => ({
-  type: SUSPECT_CELL,
-  payload: cell,
 });
 
 export const addRecord = (time: number) => ({
@@ -62,8 +48,6 @@ type MineSweeperAction =
   | ReturnType<typeof gameInit>
   | ReturnType<typeof gameStart>
   | ReturnType<typeof gameClear>
-  | ReturnType<typeof openCell>
-  | ReturnType<typeof suspectCell>
   | ReturnType<typeof gameOver>
   | ReturnType<typeof addRecord>
   | ReturnType<typeof updateBoardData>
@@ -160,46 +144,6 @@ function mineSweeper(
       );
       return { ...state, records: newRecords };
     }
-    // case OPEN_CELL: {
-    //   const { id, isActive } = action.payload;
-
-    //   if (isActive) return { ...state };
-
-    //   const newField = state.field.map((row) =>
-    //     row.map((cell) => (cell.id === id ? { ...cell, isActive: true } : cell))
-    //   );
-
-    //   return {
-    //     ...state,
-    //     field: newField,
-    //     countOfOpendCell: state.countOfOpendCell + 1,
-    //   };
-    // }
-    // case SUSPECT_CELL: {
-    //   const { id, isSuspect } = action.payload;
-
-    //   if (state.mines === 0 && !isSuspect) return { ...state };
-
-    //   let newMines = state.mines;
-
-    //   if (!isSuspect) {
-    //     newMines = state.mines - 1;
-    //   } else {
-    //     newMines = state.mines + 1;
-    //   }
-
-    //   const newField = state.field.map((row) =>
-    //     row.map((cell) =>
-    //       cell.id === id ? { ...cell, isSuspect: !cell.isSuspect } : cell
-    //     )
-    //   );
-    //   return {
-    //     ...state,
-    //     field: newField,
-    //     mines: newMines,
-    //   };
-    // }
-
     default:
       return { ...state };
   }

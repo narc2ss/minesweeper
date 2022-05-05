@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Time from "../components/Time";
-import useInterval from "../hooks/useInterval";
-import { RootState } from "../reducers";
-import { addRecord } from "../reducers/mineSweeper";
+import Time from "../../components/Time";
+import useInterval from "../../hooks/useInterval";
+import { RootState } from "../../reducers";
+import { addRecord } from "../../reducers/mineSweeper";
 
 const TimeContainer: FC = () => {
   const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../reducers";
+import { RootState } from "../../reducers";
 import TimeContainer from "./TimeContainer";
 
 interface Props {
