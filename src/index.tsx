@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { legacy_createStore } from "redux";
 import rootReducer from "./reducers";
 import GlobalStyle from "./styles/GlobalStyle";
-import GlobalWidth from "./styles/GlobalWidth";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 const isDev = process.env.NODE_ENV === "development";
@@ -23,9 +22,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <GlobalStyle />
-      <GlobalWidth>
-        <App />
-      </GlobalWidth>
+      <App />
     </Provider>
   </React.StrictMode>
 );

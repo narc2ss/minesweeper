@@ -5,9 +5,9 @@ interface Props {
   records: number[];
 }
 
-const MineSweeperRecord: FC<Props> = ({ records }) => {
+const Records: FC<Props> = ({ records }) => {
   return (
-    <MineSweeperRecordBlock>
+    <RecordBlock>
       <h2>Records</h2>
       <table>
         <thead>
@@ -20,16 +20,16 @@ const MineSweeperRecord: FC<Props> = ({ records }) => {
           {records.map((record, i) => (
             <tr key={i}>
               <td>{i + 1}</td>
-              <td>{record}s</td>
+              <td>{record} s</td>
             </tr>
           ))}
         </tbody>
       </table>
-    </MineSweeperRecordBlock>
+    </RecordBlock>
   );
 };
 
-const MineSweeperRecordBlock = styled.div`
+const RecordBlock = styled.section`
   margin: 1rem 0;
   table {
     margin-top: 1rem;
@@ -43,4 +43,4 @@ const MineSweeperRecordBlock = styled.div`
   }
 `;
 
-export default MineSweeperRecord;
+export default Records;

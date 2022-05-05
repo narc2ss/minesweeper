@@ -1,20 +1,8 @@
-import {
-  MineSweeperControllerContainer,
-  MineSweeperDialogContainer,
-  MineSweeperFieldContainer,
-  MineSweeperRecordContainer,
-} from "./containers";
+import { FC } from "react";
+import MineSweeperContainer from "./containers/MineSweeperContainer";
 
-function App() {
-  return (
-    <>
-      <h1>MineSweeper</h1>
-      <MineSweeperControllerContainer />
-      <MineSweeperFieldContainer />
-      <MineSweeperDialogContainer />
-      <MineSweeperRecordContainer />
-    </>
-  );
-}
+const App: FC = () => {
+  return <MineSweeperContainer />;
+};
 
 export default App;
