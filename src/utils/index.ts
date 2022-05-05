@@ -1,5 +1,4 @@
-import { MINES, MINESWEEEER_COLUMN, MINESWEEPER_ROW } from "../constants";
-import { Cell } from "../types/mineSweeper";
+import { ICell } from "../types/mineSweeper";
 
 export const getRandomInt = (min: number, max: number) => {
   min = Math.ceil(min);
@@ -7,48 +6,47 @@ export const getRandomInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-export const initField = () => {
-  const field: Cell[][] = [];
+export const getBoardData = (row: number, column: number, mines: number) => {
+  const field: ICell[][] = [];
 
-  for (let i = 0; i < MINESWEEPER_ROW; i++) {
-    const row: Cell[] = [];
-    for (let j = 0; j < MINESWEEEER_COLUMN; j++) {
+  for (let i = 0; i < row; i++) {
+    const row: ICell[] = [];
+    for (let j = 0; j < column; j++) {
       const cell = {
         id: `${i}/${j}`,
-        position: {
-          row: i,
-          column: j,
-        },
-        status: 0,
-        isActive: false,
+        row: i,
+        column: j,
+        isOpen: false,
         isSuspect: false,
-      } as Cell;
+        isMine: false,
+        isEmpty: true,
+        neighboringMines: 0,
+      } as ICell;
       row.push(cell);
     }
     field.push(row);
   }
 
   let mineCont = 0;
-  while (mineCont < MINES) {
-    const randomRow = getRandomInt(0, MINESWEEPER_ROW);
-    const randomColumn = getRandomInt(0, MINESWEEEER_COLUMN);
+  while (mineCont < mines) {
+    const randomRow = getRandomInt(0, row);
+    const randomColumn = getRandomInt(0, column);
     const randomCell = field[randomRow][randomColumn];
 
-    if (randomCell.status === "M") continue;
+    if (randomCell.isMine) continue;
 
-    randomCell.status = "M";
+    randomCell.isMine = true;
     for (let i = randomRow - 1; i <= randomRow + 1; i++) {
-      if (i < 0) continue;
       for (let j = randomColumn - 1; j <= randomColumn + 1; j++) {
-        if (j < 0) continue;
+        if (i < 0 || j < 0) continue;
         const cell = field[i]?.[j];
         if (!cell) continue;
-        if (cell.status === "M") {
+        if (cell.isMine) {
           continue;
         }
-        if (typeof cell.status === "number") {
-          cell.status += 1;
-        }
+
+        if (cell.isEmpty) cell.isEmpty = false;
+        cell.neighboringMines++;
       }
     }
 

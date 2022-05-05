@@ -10,7 +10,7 @@ const MineSweeperDialogContainer: FC = () => {
   const [dialogActive, setDialogActive] = useState(false);
 
   const gameStartHandler = () => {
-    dispatch(gameInit());
+    // dispatch(gameInit());
   };
 
   const nonActiveDialog = () => {

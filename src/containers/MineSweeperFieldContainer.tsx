@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from "react";
+import { FC, MouseEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MineSweeperField from "../components/MineSweeperField";
 import { MINESWEEEER_COLUMN, MINESWEEPER_ROW } from "../constants";
@@ -12,7 +12,7 @@ import {
 import { Cell } from "../types/mineSweeper";
 
 const MineSweeperFieldContainer: FC = () => {
-  const { field, status } = useSelector(
+  const { boardData, status } = useSelector(
     (state: RootState) => state.mineSweeper
   );
   const dispatch = useDispatch();
@@ -33,11 +33,13 @@ const MineSweeperFieldContainer: FC = () => {
           continue;
         }
 
-        newCell = field[i][j];
+        // newCell = field[i][j];
 
-        if (newCell.status >= 0 && !newCell.isSuspect && !newCell.isActive) {
-          dispatch(openCell(newCell));
-        }
+        // if (newCell.status > 0 && !newCell.isSuspect && !newCell.isActive) {
+        //   dispatch(openCell(newCell));
+        // } else {
+        //   nonCellHandler(newCell);
+        // }
       }
     }
   };
@@ -72,12 +74,17 @@ const MineSweeperFieldContainer: FC = () => {
     e.preventDefault();
   };
 
+  useEffect(() => {
+    console.log("rerender");
+  }, []);
+
   return (
-    <MineSweeperField
-      field={field}
-      cellHandler={cellHandler}
-      preventAll={preventAll}
-    />
+    // <MineSweeperField
+    //   field={field}
+    //   cellHandler={cellHandler}
+    //   preventAll={preventAll}
+    // />
+    <div></div>
   );
 };
 

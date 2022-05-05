@@ -15,7 +15,7 @@ const MineSweeperControllerContainer: FC = () => {
 
   const resetHandler = () => {
     if (status === "INIT") return;
-    dispatch(gameInit());
+    // dispatch(gameInit());
   };
 
   useEffect(() => {
