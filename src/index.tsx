@@ -7,12 +7,17 @@ import { legacy_createStore } from "redux";
 import rootReducer from "./reducers";
 import GlobalStyle from "./styles/GlobalStyle";
 import GlobalWidth from "./styles/GlobalWidth";
+import { composeWithDevTools } from "redux-devtools-extension";
+
+const isDev = process.env.NODE_ENV === "development";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-const store = legacy_createStore(rootReducer);
+const store = isDev
+  ? legacy_createStore(rootReducer, composeWithDevTools())
+  : legacy_createStore(rootReducer);
 
 root.render(
   <React.StrictMode>
