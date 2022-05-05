@@ -61,8 +61,6 @@ type MineSweeperState = {
   COLUMN: number;
   startTime: number;
   currentMines: number;
-  endTime: number;
-  countOfOpendCell: number;
   records: number[];
 };
 
@@ -74,8 +72,6 @@ const initialState: MineSweeperState = {
   MINES: 0,
   currentMines: 0,
   startTime: 0,
-  endTime: 0,
-  countOfOpendCell: 0,
   records: [],
 };
 
