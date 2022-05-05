@@ -12,8 +12,8 @@ interface Props {
 
 const Cell: FC<Props> = ({ cell, onLeftClick, onRightClick }) => {
   const getCellStatus = (cell: ICell): ReactNode => {
-    // if (cell.isOpen) return " ";
-    if (cell.isSuspect) return <BsFlag />;
+    if (!cell.isOpen && cell.isSuspect) return <BsFlag />;
+    if (!cell.isOpen) return " ";
     if (cell.isMine) return <GiUnlitBomb />;
     if (cell.isEmpty) return " ";
     return cell.neighboringMines;

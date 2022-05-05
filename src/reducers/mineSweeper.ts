@@ -70,20 +70,25 @@ type MineSweeperAction =
   | ReturnType<typeof updateSuspectedCell>;
 
 type MineSweeperState = {
-  boardData?: ICell[][];
+  boardData: ICell[][];
   status: Status;
-  MINES?: number;
-  ROW?: number;
-  COLUMN?: number;
+  MINES: number;
+  ROW: number;
+  COLUMN: number;
   startTime: number;
+  currentMines: number;
   endTime: number;
   countOfOpendCell: number;
   records: number[];
 };
 
 const initialState: MineSweeperState = {
-  boardData: undefined,
+  boardData: [],
   status: "INIT",
+  ROW: 0,
+  COLUMN: 0,
+  MINES: 0,
+  currentMines: 0,
   startTime: 0,
   endTime: 0,
   countOfOpendCell: 0,
@@ -105,7 +110,7 @@ function mineSweeper(
       return {
         ...state,
         boardData: action.payload.boardData,
-        MINES: action.payload.mines,
+        currentMines: action.payload.mines,
       };
     }
     case GAME_INIT: {
@@ -116,6 +121,7 @@ function mineSweeper(
         ROW: row,
         COLUMN: column,
         MINES: mines,
+        currentMines: mines,
         records: [...state.records],
       };
     }
@@ -126,29 +132,34 @@ function mineSweeper(
         status: "START",
       };
     }
-    // case GAME_OVER: {
-    //   return {
-    //     ...state,
-    //     status: "DONE",
-    //     field: state.field.map((row) =>
-    //       row.map((cell) =>
-    //         cell.status === "M" ? { ...cell, isActive: true } : cell
-    //       )
-    //     ),
-    //   };
-    // }
-    // case GAME_CLEAR: {
-    //   const newField = state.field.map((row) =>
-    //     row.map((cell) =>
-    //       cell.status === "M" ? { ...cell, isSuspect: true } : cell
-    //     )
-    //   );
-    //   return {
-    //     ...state,
-    //     status: "CLEAR",
-    //     field: newField,
-    //   };
-    // }
+    case GAME_OVER: {
+      return {
+        ...state,
+        status: "DONE",
+        boardData: state.boardData!.map((rowData) =>
+          rowData.map((cell) =>
+            cell.isMine ? { ...cell, isOpen: true } : cell
+          )
+        ),
+        startTime: 0,
+      };
+    }
+    case GAME_CLEAR: {
+      const newBoardData = state.boardData.map((row) =>
+        row.map((cell) => (cell.isMine ? { ...cell, isOpen: true } : cell))
+      );
+      return {
+        ...state,
+        status: "CLEAR",
+        boardData: newBoardData,
+      };
+    }
+    case ADD_RECORD: {
+      const newRecords = [...state.records, action.payload].sort(
+        (a, b) => a - b
+      );
+      return { ...state, records: newRecords };
+    }
     // case OPEN_CELL: {
     //   const { id, isActive } = action.payload;
 
@@ -188,12 +199,7 @@ function mineSweeper(
     //     mines: newMines,
     //   };
     // }
-    // case ADD_RECORD: {
-    //   const newRecords = [...state.records, action.payload].sort(
-    //     (a, b) => a - b
-    //   );
-    //   return { ...state, records: newRecords };
-    // }
+
     default:
       return { ...state };
   }
